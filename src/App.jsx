@@ -1,16 +1,23 @@
 import AudioRecorder from "./component/AudioRecorder/AudioRecorder";
-import TranscribeCard from "./component/TranscribeCard/TranscribeCard";
+import TranscribeList from "./component/TranscribeCard/TranscribeList";
+import TranscriptProvider from "./context/TransciptProvider";
 
 function App() {
   return (
-    <main>
-      <header>
-        <h1>Voice Notes</h1>
-        <p> Record, transcribe, edit, delete, and summarize your voice notes.</p>
-      </header>
-      <AudioRecorder />
-      <TranscribeCard />
-    </main>
+    <TranscriptProvider>
+      <div className="app">
+        <main>
+          <header>
+            <h1>Voice Notes</h1>
+            <p>
+              Record, transcribe, edit, delete, and summarize your voice notes.
+            </p>
+          </header>
+          <AudioRecorder />
+          <TranscribeList />
+        </main>
+      </div>
+    </TranscriptProvider>
   );
 }
 

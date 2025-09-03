@@ -46,7 +46,13 @@
 .disabled {
   color: var(--color-primary);
   background-color: var(--color-secondary-dark);
-  pointer-events: none;
+  /* pointer-events: none; */
+
+  &:hover {
+    cursor: not-allowed;
+    background-color: var(--color-secondary-dark);
+
+  }
 }
 
 

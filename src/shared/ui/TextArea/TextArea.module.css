@@ -1,0 +1,21 @@
+.textAreaWrapper {
+    width: 100%;
+    border: 1px solid var(--color-primary);
+    background-color: var(--color-secondary);
+    border-radius: 8px;
+    resize: vertical;
+    opacity: 1;
+    padding: 10px 12px;
+    animation: smoothPadding 0.2s linear;
+    font-size: 20px;
+}
+
+@keyframes smoothPadding {
+    0% {
+        padding: 0;
+    }
+
+    100% {
+        padding: 10px 12px;
+    }
+}

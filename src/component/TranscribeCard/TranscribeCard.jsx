@@ -1,26 +1,102 @@
-import React from 'react'
-import styles from './TranscribeCard.module.css'
-import Button from '../../shared/ui/Button/Button'
-import Input from '../../shared/ui/Input/Input'
+import React, { useState } from "react";
+import styles from "./TranscribeCard.module.css";
+import Button from "../../shared/ui/Button/Button";
+import TextArea from "../../shared/ui/TextArea/TextArea";
+import { useTranscripts } from "../../context/TranscriptContext";
 
-const TranscribeCard = () => {
-    return (
-        <div className={styles.conatiner}>
+const TranscribeCard = ({ transcriptData, idx }) => {
+  const [inputText, setInputText] = useState(transcriptData.transcript);
+  const { updateTranscript, deleteTranscript, generateSummary } =
+    useTranscripts();
+  const [isEditable, setIsEditable] = useState(false);
+  const [showSummary, setSummary] = useState(transcriptData.summary ?? false);
+  function handleInput(e) {
+    const { value } = e.target;
+    setInputText(value);
+  }
 
-            <div className={styles.cardContent}>
-                <Input value={"This is a sample transcribed text from the audio note\n"} />
+  function handleGenerateSummary(id) {
+    generateSummary(id);
+    setSummary(true);
+  }
 
-            </div>
-            <div className={styles.cardAction}>
-                <div className={styles.edit_delete_controls}>
-                    <Button theme='secondary'>Edit</Button>
-                    <Button theme='secondary'>Delete</Button>
-                </div>
+  function handleDelete(id) {
+    deleteTranscript(id);
+  }
 
-                <Button theme='primary'>Generate Summary</Button>
-            </div>
+  function handleEdit() {
+    setIsEditable(true);
+    setSummary(false);
+  }
+
+  function handleSave(id) {
+    if (inputText === "") {
+      setInputText(transcriptData.transcript);
+    }
+    updateTranscript(id, inputText);
+    setIsEditable(false);
+  }
+
+  return (
+    <div className={styles.conatiner}>
+      <div className={styles.cardContent}>
+        {!isEditable ? (
+          <p className={styles.text}>{inputText}</p>
+        ) : (
+          <TextArea idx={idx} value={inputText} onChange={handleInput} />
+        )}
+
+        {showSummary && (
+          <div className={styles.summaryContainer}>
+            <h3>Summary</h3>
+            <p className={styles.text}>{transcriptData.summary}</p>
+          </div>
+        )}
+        <div className={styles.cardAction}>
+          <div className={styles.edit_delete_controls}>
+            {!isEditable ? (
+              <Button
+                theme="secondary"
+                onClick={handleEdit}
+                title="Click to edit transcript"
+              >
+                Edit
+              </Button>
+            ) : (
+              <Button
+                theme="secondary"
+                onClick={() => handleSave(transcriptData._id)}
+                title="Click to save transcript"
+              >
+                Save
+              </Button>
+            )}
+
+            <Button
+              theme="secondary"
+              onClick={() => handleDelete(transcriptData._id)}
+              title="Click to delete transcript"
+            >
+              Delete
+            </Button>
+          </div>
+
+          <Button
+            theme="primary"
+            onClick={() => handleGenerateSummary(transcriptData._id)}
+            disabled={isEditable || showSummary}
+            title={
+              isEditable
+                ? "Click save button to Enable this Button"
+                : "Click to generate summary"
+            }
+          >
+            Generate Summary
+          </Button>
         </div>
-    )
-}
+      </div>
+    </div>
+  );
+};
 
-export default TranscribeCard
+export default TranscribeCard;

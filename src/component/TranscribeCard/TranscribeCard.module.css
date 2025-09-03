@@ -21,6 +21,22 @@
 
 .cardContent {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.text {
+    opacity: 1;
+    padding: 0px;
+    font-size: 20px;
+    animation: smoothPadding 0.2s linear;
+}
+
+.summaryContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .edit_delete_controls {
@@ -39,5 +55,15 @@
         width: fit-content;
         gap: 10px;
         align-items: center;
+    }
+}
+
+@keyframes smoothPadding {
+    0% {
+        padding: 10px 12px;
+    }
+
+    100% {
+        padding: 0;
     }
 }

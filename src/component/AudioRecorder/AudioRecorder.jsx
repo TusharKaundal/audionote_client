@@ -1,9 +1,13 @@
 import React, { useState, useRef } from "react";
-import { api } from "../../config/api";
 import Button from "../../shared/ui/Button/Button";
 import styles from "./AudioRecorder.module.css";
+
+import { useTranscripts } from "../../context/TranscriptContext";
+
 const AudioRecorder = () => {
   const [recording, setRecording] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { addTranscript } = useTranscripts();
   const mediaRef = useRef(null);
   const chunksRef = useRef([]);
 
@@ -15,16 +19,13 @@ const AudioRecorder = () => {
 
     mediaRef.current.onstop = async () => {
       const blob = new Blob(chunksRef.current, { type: "audio/wav" });
-      const audioUrl = URL.createObjectURL(blob);
-
       // Transcribe the audio by sending it to the backend
       const fd = new FormData();
       fd.append("audio", blob, "audionote.wav");
-      const res = await api.post("/transcribe", fd, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
       chunksRef.current = [];
-      console.log(fd, res);
+      setLoading(true);
+      await addTranscript(fd);
+      setLoading(false);
     };
 
     mediaRef.current.start();
@@ -39,10 +40,15 @@ const AudioRecorder = () => {
   return (
     <div className={styles.container}>
       {!recording ? (
-        <Button size="large" onClick={start}>Start Recording</Button>
+        <Button size="large" onClick={start}>
+          Start Recording
+        </Button>
       ) : (
-        <Button size="large" onClick={stop}>Stop Recoding</Button>
+        <Button size="large" onClick={stop}>
+          Stop Recording
+        </Button>
       )}
+      {loading && <h1>Loading...</h1>}
     </div>
   );
 };
