@@ -3,6 +3,7 @@ import Button from "../../shared/ui/Button/Button";
 import styles from "./AudioRecorder.module.css";
 
 import { useTranscripts } from "../../context/TranscriptContext";
+import Loader from "../../shared/ui/Loader/Loader";
 
 const AudioRecorder = () => {
   const [recording, setRecording] = useState(false);
@@ -48,7 +49,7 @@ const AudioRecorder = () => {
           Stop Recording
         </Button>
       )}
-      {loading && <h1>Loading...</h1>}
+      {loading && <Loader text="generating transcribe..." />}
     </div>
   );
 };

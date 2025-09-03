@@ -1,0 +1,52 @@
+.loaderContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.spinner {
+    background-color: transparent;
+    border: 3px solid var(--color-primary);
+    border-radius: 100%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+}
+
+
+.pulsatingText {
+    animation: pulse 1.5s infinite;
+    font-weight: 500;
+    color: var(--color-primary);
+}
+
+/* Sizes */
+.small {
+    width: 20px;
+    height: 20px;
+}
+
+.large {
+    width: 40px;
+    height: 40px;
+}
+
+/* Animations */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
