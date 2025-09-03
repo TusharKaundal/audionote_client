@@ -1,4 +1,40 @@
+:root {
+  --color-primary: #16222e;
+  --color-primary-dark: #132029;
+  --color-secondary: #ebeef2;
+  --color-secondary-dark: #b5bcc2;
+  --white: #ffffff;
+  --black: #000000;
+}
+
 * {
   margin: 0;
   box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+}
+
+main {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+header {
+  text-align: center;
+
+  & h1 {
+    text-transform: capitalize;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+  }
+
+  & p {
+    color: var(--color-primary-dark);
+  }
+
 }

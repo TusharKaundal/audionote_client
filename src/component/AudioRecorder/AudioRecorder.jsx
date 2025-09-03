@@ -1,9 +1,9 @@
 import React, { useState, useRef } from "react";
-import { api } from "../config/api";
-
+import { api } from "../../config/api";
+import Button from "../../shared/ui/Button/Button";
+import styles from "./AudioRecorder.module.css";
 const AudioRecorder = () => {
   const [recording, setRecording] = useState(false);
-  const [recordedUrl, setRecordedUrl] = useState("");
   const mediaRef = useRef(null);
   const chunksRef = useRef([]);
 
@@ -16,13 +16,14 @@ const AudioRecorder = () => {
     mediaRef.current.onstop = async () => {
       const blob = new Blob(chunksRef.current, { type: "audio/wav" });
       const audioUrl = URL.createObjectURL(blob);
+
+      // Transcribe the audio by sending it to the backend
       const fd = new FormData();
       fd.append("audio", blob, "audionote.wav");
       const res = await api.post("/transcribe", fd, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       chunksRef.current = [];
-      setRecordedUrl(audioUrl);
       console.log(fd, res);
     };
 
@@ -36,12 +37,11 @@ const AudioRecorder = () => {
   };
 
   return (
-    <div>
-      <audio {...(recordedUrl && { src: recordedUrl })} controls />
+    <div className={styles.container}>
       {!recording ? (
-        <button onClick={start}>Start</button>
+        <Button size="large" onClick={start}>Start Recording</Button>
       ) : (
-        <button onClick={stop}>Stop</button>
+        <Button size="large" onClick={stop}>Stop Recoding</Button>
       )}
     </div>
   );

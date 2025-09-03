@@ -1,0 +1,43 @@
+.conatiner {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 10px;
+    border: 2px solid var(--color-secondary);
+}
+
+
+.cardAction {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.cardContent {
+    width: 100%;
+}
+
+.edit_delete_controls {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 10px;
+    align-items: center;
+}
+
+@media (min-width: 368px) {
+
+    .edit_delete_controls {
+        display: flex;
+        flex-wrap: wrap;
+        width: fit-content;
+        gap: 10px;
+        align-items: center;
+    }
+}
