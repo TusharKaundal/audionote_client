@@ -24,8 +24,8 @@ const TranscribeCard = ({ transcriptData, idx }) => {
     setSummary(true);
   }
 
-  function handleDelete(id) {
-    deleteTranscript(id);
+  function handleDelete(data) {
+    deleteTranscript(data);
   }
 
   function handleEdit() {
@@ -82,7 +82,7 @@ const TranscribeCard = ({ transcriptData, idx }) => {
 
             <Button
               theme="secondary"
-              onClick={() => handleDelete(transcriptData._id)}
+              onClick={() => handleDelete(transcriptData)}
               title="Click to delete transcript"
             >
               Delete

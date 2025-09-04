@@ -16,11 +16,36 @@ const TranscriptProvider = ({ children }) => {
     setTranscriptList((prev) => [noteData, ...prev]);
   }, []);
 
-  // Delete a transcript by id
-  const deleteTranscript = useCallback(async (id) => {
-    const response = await api.delete(`/note/${id}`);
-    if (response.status === 200) {
-      setTranscriptList((prev) => prev.filter((item) => item._id !== id));
+  // Delete a transcript
+  const deleteTranscript = useCallback(async (data) => {
+    let deletedIndex = 0;
+
+    setTranscriptList((prev) =>
+      prev.filter((item, idx) => {
+        if (item._id === data._id) {
+          deletedIndex = idx;
+        }
+        return item._id !== data._id;
+      })
+    );
+
+    try {
+      const response = await api.delete(`/note/${data._id}`);
+      if (response.status !== 200) {
+        setTranscriptList((prev) => {
+          const newList = [...prev];
+          newList.splice(deletedIndex, 0, data);
+          return newList;
+        });
+      }
+    } catch (error) {
+      console.error("Delete failed:", error);
+      // rollback the data if error came
+      setTranscriptList((prev) => {
+        const newList = [...prev];
+        newList.splice(deletedIndex, 0, data);
+        return newList;
+      });
     }
   }, []);
 
